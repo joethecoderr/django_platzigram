@@ -4,12 +4,13 @@ from django.shortcuts import render, redirect
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.db.utils import IntegrityError
+
 
 from django.contrib.auth.models import User
 from users.models import Profile
 
 from users.forms import ProfileForm, SignupForm
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -32,15 +33,13 @@ def signup(request):
         if form.is_valid():
             form.save()
             return redirect('login')
-        else:
-            form = SignupForm()
-        return render(
-            request=request,
-            template_name='users/signup.html',
-            context={ 'form': form
-
-            }
-        )
+    else:
+        form = SignupForm()
+    return render(
+        request=request,
+        template_name='users/signup.html',
+        context={ 'form': form }
+    )
 
 @login_required
 def logout_view(request):
